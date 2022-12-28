@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %}index 1{% endblock %}
+
+{% block content %} 
+
+<div class="container">
+    
+    <h1>Produtos</h1>
+
+   
+    
+    <form class="d-flex gap-3 mt-2" action="{% url 'product-list' %}" method="GET">          
+ 
+        <span class="fw-bold">Pesquisar: </span>   
+
+        <input name="obj" type="text" value="{{request.GET.obj}}" class="form-control" placeholder="pesquisar pelo nome do produto..."> 
+    
+        {% if request.GET.obj %}   
+        <a class="btn btn-primary" href="{% url 'product-list' %}">Reset</a>                 
+        {% endif %}  
+    
+        <button type="submit" class="btn btn-primary">Buscar</button> 
+    
+    </form> 
+
+    <a class="btn btn-warning" href="{% url 'product-create' %}">+</a>
+   
+    <a class="btn btn-success" href="{% url 'export-csv' %}?obj={{request.GET.obj}}">ExportCSV</a>
+    
+    <a class="btn btn-danger" href="{% url 'export-pdf' %}?obj={{request.GET.obj}}">ExportPDF</a>
+
+    <table class="table"> 
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Imagens</th>
+            </tr>
+        </thead> 
+        <tbody>
+            {% for product in page_obj %}
+            <tr>
+                <th scope="row">{{ product.id }}</th>
+                <th scope="row">{{ product.name|upper }}</th>
+                <th scope="row">{{ product.price }}</th>
+                <th scope="row">{{ product.description }}</th>
+                <th scope="row">
+                    {% for el in product.products.all %} 
+                    <a href="{{el.image.url}}" target="_blank">Link {{el.id}}</a>
+                    {% endfor %}
+                </th>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table> 
+    {% include 'pagination.html' %} 
+</div> 
+{% endblock %}

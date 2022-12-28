@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Cadastrar Produto{% endblock %}
+
+{% block content %}
+<div class="container">
+    <form action="{% url 'product-create' %}" method="post" 
+        enctype="multipart/form-data">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" class="btn btn-primary" value="Salvar">
+    </form>
+</div>
+{% endblock %}

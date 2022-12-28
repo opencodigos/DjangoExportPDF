@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+	<h1>Lista de Produtos</h1>  
+    
+    <table class="table"> 
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nome</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Descrição</th>
+                <th scope="col">Imagens</th>
+            </tr>
+        </thead> 
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <th scope="row">{{ product.id }}</th>
+                <th scope="row">{{ product.name|upper }}</th>
+                <th scope="row">{{ product.price }}</th>
+                <th scope="row">{{ product.description }}</th>
+
+                <th scope="row">
+                    {% for el in product.products.all %} 
+                    <img src="{{el.image.url}}" alt="{{el.id}}" class="mx-2" width="50">
+                    {% endfor %}
+                </th>
+
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>  
+{% endblock %}
